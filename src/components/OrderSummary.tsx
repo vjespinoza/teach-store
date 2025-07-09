@@ -4,17 +4,20 @@ import React from "react";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
+import ShippingDetails from "@/components/ShippingDetails";
 
 interface OrderSummaryProps {
   buttonLink: string;
   buttonText: string;
+  isWithShippingDetails: boolean;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   buttonLink,
   buttonText,
+  isWithShippingDetails,
 }) => {
-  const { cart, getCartTotal, customerDetails } = useCart();
+  const { cart, getCartTotal } = useCart();
 
   const TAX_RATE = 0.12;
   const subtotal = getCartTotal();
@@ -109,6 +112,8 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
               <span id="order-summary-order-total">${total.toFixed(2)}</span>
             </div>
           </div>
+
+          <ShippingDetails showShippingDetails={isWithShippingDetails} />
 
           <Link href={buttonLink} passHref>
             <button

@@ -7,8 +7,7 @@ import {
   useCart,
 } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
+import OrderSummary from "@/components/OrderSummary";
 
 interface CreditCardDetails {
   cardNumber: string;
@@ -392,95 +391,11 @@ const PaymentPage: React.FC = () => {
               </button>
             </form>
           </div>
-
-          <div className="lg:col-span-1 bg-white p-8 rounded-lg shadow-md h-fit sticky top-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              Order Summary
-            </h2>
-            {cart.length === 0 ? (
-              <p className="text-center text-gray-500">
-                Your cart is empty. Please add items to proceed.
-              </p>
-            ) : (
-              <>
-                <div className="space-y-4 mb-6">
-                  {cart.map((item) => (
-                    <div key={item.id} className="flex items-center gap-4">
-                      <div className="relative w-16 h-16 flex-shrink-0">
-                        <Image
-                          src={item.imageUrl}
-                          alt={item.name}
-                          layout="fill"
-                          objectFit="contain"
-                          className="rounded-md"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-medium text-gray-800 line-clamp-1">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          ${item.price.toFixed(2)} x {item.quantity}
-                        </p>
-                      </div>
-                      <span className="font-semibold text-gray-800">
-                        ${(item.price * item.quantity).toFixed(2)}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="border-t border-gray-200 pt-4 mt-4">
-                  <div className="flex justify-between py-1">
-                    <span className="text-gray-700">Subtotal:</span>
-                    <span className="font-semibold">
-                      ${subtotal.toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-gray-700">Shipping:</span>
-                    <span className="font-semibold text-green-600">FREE</span>
-                  </div>
-                  <div className="flex justify-between py-1">
-                    <span className="text-gray-700">
-                      Taxes ({(TAX_RATE * 100).toFixed(0)}%):
-                    </span>
-                    <span className="font-semibold">${taxes.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between py-2 text-lg font-bold">
-                    <span>Order Total:</span>
-                    <span>${total.toFixed(2)}</span>
-                  </div>
-                </div>
-
-                <div className="mt-6 p-4 bg-blue-50 rounded-md border border-blue-200">
-                  <h3 className="font-semibold text-blue-800 mb-2">
-                    Shipping To:
-                  </h3>
-                  {customerDetails && (
-                    <address className="not-italic text-sm text-gray-700">
-                      {customerDetails.fullName}
-                      <br />
-                      {customerDetails.addressLine1}
-                      <br />
-                      {customerDetails.addressLine2}
-                      <br />
-                      {customerDetails.city}, {customerDetails.state}{" "}
-                      {customerDetails.zipCode}
-                      <br />
-                      {customerDetails.country}
-                    </address>
-                  )}
-                </div>
-
-                <Link href="/checkout" passHref>
-                  <button className="w-full bg-gray-200 text-gray-800 py-3 mt-4 rounded-md text-lg font-semibold hover:bg-gray-300 transition-colors">
-                    Back to Shipping
-                  </button>
-                </Link>
-              </>
-            )}
-          </div>
+          <OrderSummary
+            buttonLink={"/checkout"}
+            buttonText={"Back to Shipping"}
+            isWithShippingDetails={true}
+          />
         </div>
       </div>
     </div>

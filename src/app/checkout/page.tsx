@@ -219,7 +219,11 @@ const CheckoutPage: React.FC = () => {
             </form>
           </div>
 
-          <OrderSummary buttonLink="/" buttonText="Continue Shopping" />
+          <OrderSummary
+            buttonLink="/"
+            buttonText="Continue Shopping"
+            isWithShippingDetails={false}
+          />
         </div>
         <Modal
           isOpen={showEmptyCartModal}
