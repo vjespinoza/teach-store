@@ -1,11 +1,9 @@
-// src/components/Navbar.tsx
-
-"use client"; // Add this directive because Navbar will now manage client-side state
+"use client";
 
 import Link from "next/link";
 import { Heart, Search, ShoppingCart, User } from "lucide-react";
-import { useState } from "react"; // <--- Import useState
-import CartModal from "./CartModal"; // <--- Import CartModal
+import { useState } from "react";
+import CartModal from "./CartModal";
 import { useCart } from "@/context/CartContext";
 
 interface NavbarProps {
@@ -22,7 +20,6 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Left section: Logo and Search */}
         <div className="flex items-center space-x-8">
           <Link href="/" className="text-2xl font-bold text-white">
             Digitic.
@@ -39,48 +36,45 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           </div>
         </div>
 
-        {/* Right section: Icons and Cart */}
         <div className="flex items-center space-x-6">
           <Link
-            href="/compare-products"
+            href="/compare-products" //TODO
             className="flex flex-col items-center text-sm hover:text-gray-300"
           >
             <span className="text-xs">Compare</span>
             <span className="text-xs">Products</span>
           </Link>
           <Link
-            href="/wishlist"
+            href="/wishlist" //TODO
             className="flex flex-col items-center text-sm hover:text-gray-300"
           >
             <Heart size={20} />
             <span className="text-xs">Wishlist</span>
           </Link>
           <Link
-            href="/my-account"
+            href="/my-account" //TODO
             className="flex flex-col items-center text-sm hover:text-gray-300"
           >
             <User size={20} />
             <span className="text-xs">Log In</span>
             <span className="text-xs">My Account</span>
           </Link>
-          {/* Cart Button */}
           <button
             className="relative flex items-center hover:text-gray-300"
             onClick={openCartModal}
           >
             <ShoppingCart size={24} />
-            {getCartItemCount() > 0 && ( // <--- Use getCartItemCount() directly
+            {getCartItemCount() > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {getCartItemCount()}
               </span>
             )}
             <span className="ml-2">${getCartTotal().toFixed(2)}</span>{" "}
-            {/* <--- Display actual cart total */}
           </button>
         </div>
       </div>
 
-      {/* Secondary Nav / Categories */}
+      {/*//TODO: Nav Links*/}
       <div className="container mx-auto mt-4 bg-gray-700 rounded-md p-2 flex justify-start items-center space-x-6 text-sm">
         <Link href="#" className="font-semibold text-yellow-400">
           SHOP CATEGORIES
@@ -111,7 +105,6 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
         </Link>
       </div>
 
-      {/* Cart Modal */}
       <CartModal isOpen={isCartModalOpen} onClose={closeCartModal} />
     </nav>
   );

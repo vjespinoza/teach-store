@@ -1,20 +1,18 @@
-// src/app/checkout/page.tsx
-
 "use client";
 
-import React, { useState, FormEvent } from "react";
+import React, { FormEvent, useState } from "react";
 import Navbar from "@/components/Navbar";
 import {
-  useCart,
   CustomerDetails as CustomerDetailsType,
-} from "@/context/CartContext"; // Import CustomerDetailsType
+  useCart,
+} from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 
 const CheckoutPage: React.FC = () => {
-  const { cart, getCartTotal, setCustomerDetails } = useCart(); // Destructure setCustomerDetails
+  const { cart, getCartTotal, setCustomerDetails } = useCart();
   const router = useRouter();
   const [showEmptyCartModal, setShowEmptyCartModal] = useState(false);
   const TAX_RATE = 0.12;
@@ -24,7 +22,6 @@ const CheckoutPage: React.FC = () => {
 
   const [customerDetails, setLocalCustomerDetails] =
     useState<CustomerDetailsType>({
-      // Use CustomerDetailsType
       fullName: "",
       email: "",
       addressLine1: "",
@@ -38,7 +35,6 @@ const CheckoutPage: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLocalCustomerDetails((prevDetails) => ({
-      // Use setLocalCustomerDetails
       ...prevDetails,
       [name]: value,
     }));
@@ -55,8 +51,8 @@ const CheckoutPage: React.FC = () => {
   };
 
   const handleGoHome = () => {
-    setShowEmptyCartModal(false); // Close modal
-    router.push("/"); // Navigate to home page
+    setShowEmptyCartModal(false);
+    router.push("/");
   };
 
   return (
@@ -64,14 +60,12 @@ const CheckoutPage: React.FC = () => {
       <Navbar
         cartItemCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
       />{" "}
-      {/* Pass actual cart item count */}
       <div className="container mx-auto p-4 py-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
           Checkout
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Customer Details Form */}
           <div className="lg:col-span-2 bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Shipping Information
@@ -229,7 +223,6 @@ const CheckoutPage: React.FC = () => {
             </form>
           </div>
 
-          {/* Right Column: Order Summary */}
           <div className="lg:col-span-1 bg-white p-8 rounded-lg shadow-md h-fit sticky top-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Order Summary
@@ -279,7 +272,6 @@ const CheckoutPage: React.FC = () => {
                     <span className="font-semibold text-green-600">
                       FREE
                     </span>{" "}
-                    {/* Assuming free shipping for now */}
                   </div>
                   <div className="flex justify-between py-1">
                     <span className="text-gray-700">
@@ -303,7 +295,6 @@ const CheckoutPage: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Empty Cart Modal */}
       <Modal
         isOpen={showEmptyCartModal}
         onClose={() => setShowEmptyCartModal(false)} // This might not be strictly needed as the button navigates

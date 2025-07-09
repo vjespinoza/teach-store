@@ -1,5 +1,3 @@
-// src/app/confirmation/page.tsx
-
 "use client";
 
 import React, { useEffect } from "react";
@@ -12,12 +10,11 @@ import { useRouter } from "next/navigation";
 const ConfirmationPage: React.FC = () => {
   const { lastOrderSummary } = useCart();
   const router = useRouter();
-  const TAX_RATE = 0.12; // Ensure this matches the rate used elsewhere
+  const TAX_RATE = 0.12;
 
-  // Redirect if no order summary is found (e.g., direct access or refresh)
   useEffect(() => {
     if (!lastOrderSummary) {
-      router.push("/"); // Redirect to home or a dedicated "order history" page if implemented
+      router.push("/");
     }
   }, [lastOrderSummary, router]);
 
@@ -47,7 +44,6 @@ const ConfirmationPage: React.FC = () => {
         </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column: Order Summary */}
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Your Order
@@ -114,13 +110,11 @@ const ConfirmationPage: React.FC = () => {
             )}
           </div>
 
-          {/* Right Column: Address Details */}
           <div className="bg-white p-8 rounded-lg shadow-md h-fit">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Delivery Details
             </h2>
 
-            {/* Shipping Address */}
             <div className="mb-8">
               <h3 className="font-semibold text-xl text-gray-700 mb-3">
                 Shipping Address
@@ -142,7 +136,6 @@ const ConfirmationPage: React.FC = () => {
               </address>
             </div>
 
-            {/* Billing Address (Conditional) */}
             {billingAddress &&
               (billingAddress.fullName !== shippingAddress.fullName ||
                 billingAddress.addressLine1 !== shippingAddress.addressLine1 ||

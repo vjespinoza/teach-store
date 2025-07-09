@@ -1,15 +1,12 @@
-// src/app/page.tsx
-
 "use client";
 
 import Navbar from "@/components/Navbar";
-import ProductCard, { Product } from "@/components/ProductCard"; // Ensure Product is imported if used directly
+import ProductCard, { Product } from "@/components/ProductCard";
 import { mockProducts } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { XCircle } from "lucide-react";
 
-// Define types for filter and sort state
 type SortOption =
   | "price-asc"
   | "price-desc"
@@ -17,17 +14,14 @@ type SortOption =
   | "name-desc"
   | "default";
 
-// Define the filter state interface more formally
 interface ProductFilters {
   inStock: boolean;
   outOfStock: boolean;
   priceRange: { min: number; max: number };
   productType: string[];
   brand: string[];
-  // Add other filters as needed, e.g., color: string[], storage: string[],
 }
 
-// Define specific types for the value parameter in handleFilterChange
 type FilterChangeValue =
   | boolean
   | number
@@ -54,7 +48,6 @@ export default function Home() {
   const applyFiltersAndSort = useCallback(
     (currentFilters: ProductFilters, currentSortOption: SortOption) => {
       const filtered = mockProducts.filter((product) => {
-        // Apply Availability Filter
         if (currentFilters.inStock && !product.isInStock) {
           return false;
         }
@@ -62,7 +55,6 @@ export default function Home() {
           return false;
         }
 
-        // Apply Price Range Filter
         if (
           product.price < currentFilters.priceRange.min ||
           product.price > currentFilters.priceRange.max
@@ -70,7 +62,6 @@ export default function Home() {
           return false;
         }
 
-        // Apply Product Type Filter
         if (
           currentFilters.productType.length > 0 &&
           !currentFilters.productType.includes(product.category)
@@ -78,7 +69,6 @@ export default function Home() {
           return false;
         }
 
-        // Apply Brand Filter
         if (
           currentFilters.brand.length > 0 &&
           !currentFilters.brand.includes(product.brand)
@@ -89,7 +79,6 @@ export default function Home() {
         return true;
       });
 
-      // Apply sorting
       filtered.sort((a, b) => {
         if (currentSortOption === "price-asc") {
           return a.price - b.price;
@@ -103,7 +92,7 @@ export default function Home() {
         if (currentSortOption === "name-desc") {
           return b.name.localeCompare(a.name);
         }
-        return 0; // Default or no sort
+        return 0;
       });
 
       return filtered;
@@ -115,9 +104,8 @@ export default function Home() {
     setProducts(applyFiltersAndSort(filters, sortOption));
   }, [filters, sortOption, applyFiltersAndSort]);
 
-  // Modified handleAddToCart to accept quantity
   const handleAddToCart = (product: Product, quantity: number) => {
-    addToCart(product, quantity); // Pass the quantity to addToCart
+    addToCart(product, quantity);
   };
 
   const handleFilterChange = (

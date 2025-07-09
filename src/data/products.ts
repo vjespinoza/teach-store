@@ -1,6 +1,4 @@
-// src/data/products.ts
-
-import { Product } from "@/components/ProductCard"; // Import the Product interface
+import { Product } from "@/components/ProductCard";
 
 export const mockProducts: Product[] = [
   {

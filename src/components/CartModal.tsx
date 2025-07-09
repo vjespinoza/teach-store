@@ -1,12 +1,10 @@
-// src/components/CartModal.tsx
-
 "use client";
 
 import React from "react";
 import { useCart } from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, X } from "lucide-react"; // For close, minus, plus icons
+import { Minus, Plus, X } from "lucide-react";
 
 interface CartModalProps {
   isOpen: boolean;
@@ -16,7 +14,7 @@ interface CartModalProps {
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, updateCartItemQuantity, getCartTotal } =
     useCart();
-  const TAX_RATE = 0.12; // 12% tax
+  const TAX_RATE = 0.12;
 
   if (!isOpen) return null;
 
@@ -27,11 +25,11 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-end z-50"
-      onClick={onClose} // Close modal when clicking outside
+      onClick={onClose}
     >
       <div
         className="bg-white w-full max-w-md h-full shadow-lg flex flex-col relative"
-        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center p-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold">Your Cart</h2>
@@ -129,7 +127,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
           <Link href="/checkout" passHref>
             <button
               className="w-full bg-blue-600 text-white py-3 mt-4 rounded-md text-lg font-semibold hover:bg-blue-700 transition-colors"
-              onClick={onClose} // Close modal on Confirm click
+              onClick={onClose}
               disabled={cart.length === 0}
             >
               Confirm

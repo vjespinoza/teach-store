@@ -1,10 +1,8 @@
-// src/components/ProductCard.tsx
-
 "use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ShoppingCart } from "lucide-react"; // Import the shopping cart icon
+import { ShoppingCart } from "lucide-react";
 
 export interface Product {
   id: string;
@@ -44,7 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
 
   const handleAddClick = () => {
     onAddToCart(product, quantity);
-    setQuantity(1); // Reset quantity to 1 after adding to cart
+    setQuantity(1);
   };
 
   return (
@@ -57,7 +55,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           objectFit="contain"
           className="p-4"
         />
-        {/* Sale Tag */}
         {product.isSale && (
           <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
             SALE
@@ -74,7 +71,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         <div className="flex items-center justify-between mt-auto mb-4">
           <div className="flex items-baseline space-x-2">
             {" "}
-            {/* Container for prices */}
             {product.isSale && product.originalPrice > 0 && (
               <span className="text-gray-500 line-through text-base">
                 ${product.originalPrice.toFixed(2)}
@@ -91,9 +87,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           </span>
         </div>
 
-        {/* Combined Quantity Selector and Add to Cart Icon Button */}
         <div className="flex items-center gap-2 mt-auto">
-          {/* Quantity Selector */}
           <div className="flex items-center border border-gray-300 rounded-md overflow-hidden w-28 flex-shrink-0">
             <button
               onClick={handleDecrement}
@@ -119,7 +113,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
             </button>
           </div>
 
-          {/* Add to Cart Icon Button */}
           <button
             onClick={handleAddClick}
             disabled={!product.isInStock}

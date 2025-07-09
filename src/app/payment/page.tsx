@@ -1,22 +1,19 @@
-// src/app/payment/page.tsx
-
 "use client";
 
-import React, { useState, FormEvent, useEffect } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import {
-  useCart,
   CustomerDetails as CustomerDetailsType,
+  useCart,
 } from "@/context/CartContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-// Basic type for credit card details (you might want more validation/structure later)
 interface CreditCardDetails {
   cardNumber: string;
   cardName: string;
-  expiryDate: string; // MM/YY
+  expiryDate: string;
   cvv: string;
 }
 
@@ -46,7 +43,7 @@ const PaymentPage: React.FC = () => {
     useState(true);
   const [billingAddress, setBillingAddress] = useState<CustomerDetailsType>({
     fullName: "",
-    email: "", // Email might be derived or optional for billing
+    email: "",
     addressLine1: "",
     addressLine2: "",
     city: "",
@@ -56,7 +53,6 @@ const PaymentPage: React.FC = () => {
   });
 
   useEffect(() => {
-    // If no customer details are found (e.g., direct navigation), redirect to checkout
     if (!customerDetails || cart.length === 0) {
       router.push("/checkout");
     }
@@ -89,7 +85,6 @@ const PaymentPage: React.FC = () => {
       return;
     }
 
-    // Simulate payment processing
     console.log("Processing payment...");
     console.log("Credit Card Details:", cardDetails);
     console.log("Shipping Address:", customerDetails);
@@ -98,7 +93,6 @@ const PaymentPage: React.FC = () => {
       billingAddressSameAsShipping ? "Same as shipping" : billingAddress,
     );
 
-    // Prepare order summary for confirmation page
     const orderSummary = {
       items: cart,
       subtotal,
@@ -110,14 +104,13 @@ const PaymentPage: React.FC = () => {
         : billingAddress,
     };
 
-    setLastOrderSummary(orderSummary); // Save order summary to context
-    clearCart(); // Clear the cart after successful (simulated) payment
+    setLastOrderSummary(orderSummary);
+    clearCart();
 
-    // Simulate a delay for payment processing
     setTimeout(() => {
       console.log("Payment successful!");
-      router.push("/confirmation"); // Redirect to confirmation page
-    }, 1500); // 1.5 second delay
+      router.push("/confirmation");
+    }, 1500);
   };
 
   if (!customerDetails || cart.length === 0) {
@@ -125,7 +118,7 @@ const PaymentPage: React.FC = () => {
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <p className="text-xl text-gray-700">Redirecting to checkout...</p>
       </div>
-    ); // Or a loading spinner
+    );
   }
 
   return (
@@ -138,7 +131,6 @@ const PaymentPage: React.FC = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Payment Form */}
           <div className="lg:col-span-2 bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Payment Details
@@ -160,7 +152,7 @@ const PaymentPage: React.FC = () => {
                   className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   placeholder="XXXX XXXX XXXX XXXX"
                   required
-                  pattern="[0-9]{13,16}" // Basic pattern for 13-16 digits
+                  pattern="[0-9]{13,16}"
                   title="Card number should be 13 to 16 digits"
                 />
               </div>
@@ -199,7 +191,7 @@ const PaymentPage: React.FC = () => {
                     className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="MM/YY"
                     required
-                    pattern="(0[1-9]|1[0-2])\/?([0-9]{2})" // Basic MM/YY pattern
+                    pattern="(0[1-9]|1[0-2])\/?([0-9]{2})"
                     title="Expiry date must be in MM/YY format"
                   />
                 </div>
@@ -219,13 +211,12 @@ const PaymentPage: React.FC = () => {
                     className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="XXX"
                     required
-                    pattern="[0-9]{3,4}" // Basic 3 or 4 digits
+                    pattern="[0-9]{3,4}"
                     title="CVV must be 3 or 4 digits"
                   />
                 </div>
               </div>
 
-              {/* Billing Address Checkbox */}
               <div className="mb-6">
                 <label className="flex items-center space-x-2">
                   <input
@@ -242,13 +233,11 @@ const PaymentPage: React.FC = () => {
                 </label>
               </div>
 
-              {/* Conditional Billing Address Form */}
               {!billingAddressSameAsShipping && (
                 <div className="bg-gray-50 p-6 rounded-lg shadow-inner mb-6">
                   <h3 className="text-xl font-semibold text-gray-800 mb-4">
                     Billing Information
                   </h3>
-                  {/* Reuse address fields, adapted for billing */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label
@@ -397,14 +386,13 @@ const PaymentPage: React.FC = () => {
               <button
                 type="submit"
                 className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition-colors"
-                disabled={cart.length === 0} // Disable if cart is empty
+                disabled={cart.length === 0}
               >
                 Pay Now
               </button>
             </form>
           </div>
 
-          {/* Right Column: Order Summary */}
           <div className="lg:col-span-1 bg-white p-8 rounded-lg shadow-md h-fit sticky top-8">
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Order Summary
