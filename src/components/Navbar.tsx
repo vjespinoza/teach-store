@@ -6,13 +6,15 @@ import Link from 'next/link';
 import {Heart, Search, ShoppingCart, User} from 'lucide-react';
 import {useState} from 'react'; // <--- Import useState
 import CartModal from './CartModal'; // <--- Import CartModal
+import { useCart } from '@/context/CartContext';
 
 interface NavbarProps {
     cartItemCount: number;
 }
 
 const Navbar: React.FC<NavbarProps> = ({cartItemCount}) => {
-    const [isCartModalOpen, setIsCartModalOpen] = useState(false); // <--- Add state for modal
+    const [isCartModalOpen, setIsCartModalOpen] = useState(false);
+    const {getCartItemCount, getCartTotal} = useCart();
 
     const openCartModal = () => setIsCartModalOpen(true);
     const closeCartModal = () => setIsCartModalOpen(false);
@@ -55,16 +57,15 @@ const Navbar: React.FC<NavbarProps> = ({cartItemCount}) => {
                     {/* Cart Button */}
                     <button
                         className="relative flex items-center hover:text-gray-300"
-                        onClick={openCartModal} // <--- Add onClick to open modal
+                        onClick={openCartModal}
                     >
-                        <ShoppingCart size={24}/>
-                        {cartItemCount > 0 && (
-                            <span
-                                className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {cartItemCount}
+                        <ShoppingCart size={24} />
+                        {getCartItemCount() > 0 && ( // <--- Use getCartItemCount() directly
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {getCartItemCount()}
               </span>
                         )}
-                        <span className="ml-2">$0.00</span> {/* Placeholder for total cart value */}
+                        <span className="ml-2">${getCartTotal().toFixed(2)}</span> {/* <--- Display actual cart total */}
                     </button>
                 </div>
             </div>
