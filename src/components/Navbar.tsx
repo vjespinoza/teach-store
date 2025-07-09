@@ -12,7 +12,7 @@ interface NavbarProps {
     cartItemCount: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({cartItemCount}) => {
+const Navbar: React.FC<NavbarProps> = ({}) => {
     const [isCartModalOpen, setIsCartModalOpen] = useState(false);
     const {getCartItemCount, getCartTotal} = useCart();
 
