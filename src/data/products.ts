@@ -15,6 +15,7 @@ export const mockProducts: Product[] = [
         reviews: 7,
         isInStock: true,
         isSale: true,
+        description: ''
     },
     {
         id: '2',
@@ -26,6 +27,9 @@ export const mockProducts: Product[] = [
         rating: 5,
         reviews: 1,
         isInStock: true,
+        description: '',
+        originalPrice: 0,
+        isSale: false
     },
     {
         id: '3',
@@ -37,6 +41,9 @@ export const mockProducts: Product[] = [
         rating: 4,
         reviews: 12,
         isInStock: true,
+        description: '',
+        originalPrice: 0,
+        isSale: false
     },
     {
         id: '4',
@@ -48,6 +55,9 @@ export const mockProducts: Product[] = [
         rating: 5,
         reviews: 8,
         isInStock: true,
+        description: '',
+        originalPrice: 0,
+        isSale: false
     },
     {
         id: '5',
@@ -58,7 +68,10 @@ export const mockProducts: Product[] = [
         brand: 'Sony',
         rating: 5,
         reviews: 20,
-        isInStock: false, // Example of an out-of-stock item
+        isInStock: false,
+        description: '',
+        originalPrice: 0,
+        isSale: false
     },
     {
         id: '6',
@@ -70,5 +83,8 @@ export const mockProducts: Product[] = [
         rating: 4,
         reviews: 5,
         isInStock: true,
+        description: '',
+        originalPrice: 0,
+        isSale: false
     },
 ];
