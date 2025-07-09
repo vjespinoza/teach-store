@@ -1,13 +1,22 @@
 // src/components/Navbar.tsx
 
+'use client'; // Add this directive because Navbar will now manage client-side state
+
 import Link from 'next/link';
-import {Heart, Search, ShoppingCart, User} from 'lucide-react'; // We'll use lucide-react for icons
+import {Heart, Search, ShoppingCart, User} from 'lucide-react';
+import {useState} from 'react'; // <--- Import useState
+import CartModal from './CartModal'; // <--- Import CartModal
 
 interface NavbarProps {
     cartItemCount: number;
 }
 
 const Navbar: React.FC<NavbarProps> = ({cartItemCount}) => {
+    const [isCartModalOpen, setIsCartModalOpen] = useState(false); // <--- Add state for modal
+
+    const openCartModal = () => setIsCartModalOpen(true);
+    const closeCartModal = () => setIsCartModalOpen(false);
+
     return (
         <nav className="bg-gray-800 text-white p-4">
             <div className="container mx-auto flex justify-between items-center">
@@ -43,7 +52,11 @@ const Navbar: React.FC<NavbarProps> = ({cartItemCount}) => {
                         <span className="text-xs">Log In</span>
                         <span className="text-xs">My Account</span>
                     </Link>
-                    <button className="relative flex items-center hover:text-gray-300">
+                    {/* Cart Button */}
+                    <button
+                        className="relative flex items-center hover:text-gray-300"
+                        onClick={openCartModal} // <--- Add onClick to open modal
+                    >
                         <ShoppingCart size={24}/>
                         {cartItemCount > 0 && (
                             <span
@@ -69,6 +82,9 @@ const Navbar: React.FC<NavbarProps> = ({cartItemCount}) => {
                     className="bg-yellow-500 text-gray-900 text-xs px-1 rounded">HOT</span></Link>
                 <Link href="#" className="hover:text-gray-300">ELEMENTS</Link>
             </div>
+
+            {/* Cart Modal */}
+            <CartModal isOpen={isCartModalOpen} onClose={closeCartModal}/>
         </nav>
     );
 };

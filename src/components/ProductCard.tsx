@@ -19,9 +19,10 @@ export interface Product {
 
 interface ProductCardProps {
     product: Product;
+    onAddToCart: (product: Product) => void; // <--- ADDED PROP
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({product}) => {
+const ProductCard: React.FC<ProductCardProps> = ({product, onAddToCart}) => { // <--- Destructure onAddToCart
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden relative group">
             {product.isSale && (
@@ -67,8 +68,13 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
                     <span className="text-red-600 font-bold text-lg">${product.price.toFixed(2)}</span>
                 </div>
                 <button
-                    className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
+                    className={`w-full py-2 rounded-md transition-colors duration-200 ${
+                        product.isInStock
+                            ? 'bg-blue-600 text-white hover:bg-blue-700'
+                            : 'bg-gray-400 text-gray-700 cursor-not-allowed'
+                    }`}
                     disabled={!product.isInStock}
+                    onClick={() => onAddToCart(product)}
                 >
                     {product.isInStock ? 'Add to Cart' : 'Out of Stock'}
                 </button>
