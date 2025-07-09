@@ -8,6 +8,7 @@ import {
 } from "@/context/CartContext";
 import { useRouter } from "next/navigation";
 import OrderSummary from "@/components/OrderSummary";
+import EmptySummary from "@/components/EmptySummary";
 
 interface CreditCardDetails {
   cardNumber: string;
@@ -391,11 +392,19 @@ const PaymentPage: React.FC = () => {
               </button>
             </form>
           </div>
-          <OrderSummary
-            buttonLink={"/checkout"}
-            buttonText={"Back to Shipping"}
-            isWithShippingDetails={true}
-          />
+          {cart.length > 0 ? (
+            <OrderSummary
+              buttonLink="/checkout"
+              buttonText="Back to Shipping"
+              isWithShippingDetails={true}
+            />
+          ) : (
+            <EmptySummary
+              emptyStateMessage={
+                "Your cart is empty. Please add items to proceed."
+              }
+            />
+          )}
         </div>
       </div>
     </div>

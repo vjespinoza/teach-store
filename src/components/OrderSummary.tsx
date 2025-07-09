@@ -32,98 +32,94 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
         Order Summary
       </h2>
-      {cart.length === 0 ? (
-        <p id="order-summary-empty-state" className="text-center text-gray-500">
-          Your cart is empty. Please add items to proceed.
-        </p>
-      ) : (
-        <>
-          <div id="order-summary-product-list" className="space-y-4 mb-6">
-            {cart.map((item) => (
-              <div
-                key={item.id}
-                data-testid="order-summary-product"
-                className="flex items-center gap-4"
+      <div id="order-summary-product-list" className="space-y-4 mb-6">
+        {cart.map((item) => (
+          <div
+            key={item.id}
+            data-testid="order-summary-product"
+            className="flex items-center gap-4"
+          >
+            <div className="relative w-16 h-16 flex-shrink-0">
+              <Image
+                src={item.imageUrl}
+                alt={item.name}
+                layout="fill"
+                objectFit="contain"
+                className="rounded-md"
+                data-testid="order-summary-product-image"
+              />
+            </div>
+            <div className="flex-1">
+              <h3
+                className="font-medium text-gray-800 line-clamp-1"
+                data-testid="order-summary-product-name"
               >
-                <div className="relative w-16 h-16 flex-shrink-0">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.name}
-                    layout="fill"
-                    objectFit="contain"
-                    className="rounded-md"
-                    data-testid="order-summary-product-image"
-                  />
-                </div>
-                <div className="flex-1">
-                  <h3
-                    className="font-medium text-gray-800 line-clamp-1"
-                    data-testid="order-summary-product-name"
-                  >
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    $
-                    <span data-testid="order-summary-product-price">
-                      {item.price.toFixed(2)}
-                    </span>{" "}
-                    x
-                    <span data-testid="order-summary-product-quantity">
-                      {item.quantity}
-                    </span>
-                  </p>
-                </div>
-                <span
-                  className="font-semibold text-gray-800"
-                  data-testid="order-summary-product-total-price"
-                >
-                  ${(item.price * item.quantity).toFixed(2)}
+                {item.name}
+              </h3>
+              <p className="text-sm text-gray-600">
+                $
+                <span data-testid="order-summary-product-price">
+                  {item.price.toFixed(2)}
+                </span>{" "}
+                x
+                <span data-testid="order-summary-product-quantity">
+                  {item.quantity}
                 </span>
-              </div>
-            ))}
-          </div>
-
-          <div className="border-t border-gray-200 pt-4 mt-4">
-            <div className="flex justify-between py-1">
-              <span className="text-gray-700">Subtotal:</span>
-              <span className="font-semibold" id="order-summary-subtotal">
-                ${subtotal.toFixed(2)}
-              </span>
+              </p>
             </div>
-            <div className="flex justify-between py-1">
-              <span className="text-gray-700">Shipping:</span>
-              <span
-                className="font-semibold text-green-600"
-                id="order-summary-shipping-fee"
-              >
-                FREE
-              </span>{" "}
-            </div>
-            <div className="flex justify-between py-1">
-              <span className="text-gray-700">
-                Taxes ({(TAX_RATE * 100).toFixed(0)}%):
-              </span>
-              <span id="order-summary-tax" className="font-semibold">
-                ${taxes.toFixed(2)}
-              </span>
-            </div>
-            <div className="flex justify-between py-2 text-lg font-bold">
-              <span>Order Total:</span>
-              <span id="order-summary-order-total">${total.toFixed(2)}</span>
-            </div>
-          </div>
-
-          <ShippingDetails showShippingDetails={isWithShippingDetails} />
-
-          <Link href={buttonLink} passHref>
-            <button
-              id="order-summary-return-button"
-              className="w-full bg-gray-200 text-gray-800 py-3 mt-4 rounded-md text-lg font-semibold hover:bg-gray-300 transition-colors"
+            <span
+              className="font-semibold text-gray-800"
+              data-testid="order-summary-product-total-price"
             >
-              {buttonText}
-            </button>
-          </Link>
-        </>
+              ${(item.price * item.quantity).toFixed(2)}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <div className="border-t border-gray-200 pt-4 mt-4">
+        <div className="flex justify-between py-1">
+          <span className="text-gray-700">Subtotal:</span>
+          <span className="font-semibold" id="order-summary-subtotal">
+            ${subtotal.toFixed(2)}
+          </span>
+        </div>
+        <div className="flex justify-between py-1">
+          <span className="text-gray-700">Shipping:</span>
+          <span
+            className="font-semibold text-green-600"
+            id="order-summary-shipping-fee"
+          >
+            FREE
+          </span>{" "}
+        </div>
+        <div className="flex justify-between py-1">
+          <span className="text-gray-700">
+            Taxes ({(TAX_RATE * 100).toFixed(0)}%):
+          </span>
+          <span id="order-summary-tax" className="font-semibold">
+            ${taxes.toFixed(2)}
+          </span>
+        </div>
+        <div className="flex justify-between py-2 text-lg font-bold">
+          <span>Order Total:</span>
+          <span id="order-summary-order-total">${total.toFixed(2)}</span>
+        </div>
+      </div>
+
+      <ShippingDetails showShippingDetails={isWithShippingDetails} />
+
+      {buttonText === "" ? (
+        <></>
+      ) : (
+        <Link href={buttonLink} passHref>
+          <button
+            id="order-summary-return-button"
+            className="w-full bg-gray-200 text-gray-800 py-3 mt-4 rounded-md text-lg font-semibold hover:bg-gray-300 transition-colors"
+          >
+            {buttonText}
+          </button>
+        </Link>
       )}
     </div>
   );

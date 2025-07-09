@@ -9,6 +9,7 @@ import {
 import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 import OrderSummary from "@/components/OrderSummary";
+import EmptySummary from "@/components/EmptySummary";
 
 const CheckoutPage: React.FC = () => {
   const { cart, setCustomerDetails } = useCart();
@@ -219,11 +220,19 @@ const CheckoutPage: React.FC = () => {
             </form>
           </div>
 
-          <OrderSummary
-            buttonLink="/"
-            buttonText="Continue Shopping"
-            isWithShippingDetails={false}
-          />
+          {cart.length > 0 ? (
+            <OrderSummary
+              buttonLink="/"
+              buttonText="Add More Items"
+              isWithShippingDetails={false}
+            />
+          ) : (
+            <EmptySummary
+              emptyStateMessage={
+                "Your cart is empty. Please add items to proceed."
+              }
+            />
+          )}
         </div>
         <Modal
           isOpen={showEmptyCartModal}
