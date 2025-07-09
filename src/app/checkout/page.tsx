@@ -2,35 +2,23 @@
 
 'use client';
 
-import React, {FormEvent, useState} from 'react';
+import React, { useState, FormEvent } from 'react';
 import Navbar from '@/components/Navbar';
-import {useCart} from '@/context/CartContext';
+import { useCart, CustomerDetails as CustomerDetailsType } from '@/context/CartContext'; // Import CustomerDetailsType
 import Image from 'next/image';
-import Link from 'next/link'; // For navigation
-import {useRouter} from 'next/navigation'; // For programmatic navigation
-
-// Define a type for customer details form
-interface CustomerDetails {
-    fullName: string;
-    email: string;
-    addressLine1: string;
-    addressLine2: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-}
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const CheckoutPage: React.FC = () => {
-    const {cart, getCartTotal} = useCart();
-    const router = useRouter(); // Initialize useRouter
-    const TAX_RATE = 0.12; // 12% tax
+    const { cart, getCartTotal, setCustomerDetails } = useCart(); // Destructure setCustomerDetails
+    const router = useRouter();
+    const TAX_RATE = 0.12;
 
     const subtotal = getCartTotal();
     const taxes = subtotal * TAX_RATE;
     const total = subtotal + taxes;
 
-    const [customerDetails, setCustomerDetails] = useState<CustomerDetails>({
+    const [customerDetails, setLocalCustomerDetails] = useState<CustomerDetailsType>({ // Use CustomerDetailsType
         fullName: '',
         email: '',
         addressLine1: '',
@@ -42,8 +30,8 @@ const CheckoutPage: React.FC = () => {
     });
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
-        setCustomerDetails((prevDetails) => ({
+        const { name, value } = e.target;
+        setLocalCustomerDetails((prevDetails) => ({ // Use setLocalCustomerDetails
             ...prevDetails,
             [name]: value,
         }));
@@ -51,13 +39,8 @@ const CheckoutPage: React.FC = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        // In a real application, you'd save these details to state or a backend.
-        // For now, we'll just log them and navigate.
-        console.log('Customer Details:', customerDetails);
-
-        // TODO: Store customer details in a global state or session storage
-        // so they can be accessed on the payment and confirmation pages.
-        // For now, we'll just pass them through query params or similar if needed for simulation.
+        // Save customer details to global context
+        setCustomerDetails(customerDetails); // <--- IMPORTANT: Save to context
 
         // Navigate to the payment page
         router.push('/payment');
