@@ -8,12 +8,13 @@ import { useCart, CustomerDetails as CustomerDetailsType } from '@/context/CartC
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Modal from "@/components/Modal";
 
 const CheckoutPage: React.FC = () => {
     const { cart, getCartTotal, setCustomerDetails } = useCart(); // Destructure setCustomerDetails
     const router = useRouter();
+    const [showEmptyCartModal, setShowEmptyCartModal] = useState(false);
     const TAX_RATE = 0.12;
-
     const subtotal = getCartTotal();
     const taxes = subtotal * TAX_RATE;
     const total = subtotal + taxes;
@@ -39,11 +40,17 @@ const CheckoutPage: React.FC = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        // Save customer details to global context
-        setCustomerDetails(customerDetails); // <--- IMPORTANT: Save to context
+        if (cart.length > 0) {
+            setCustomerDetails(customerDetails);
+            router.push('/payment');
+        } else {
+            setShowEmptyCartModal(true);
+        }
+    };
 
-        // Navigate to the payment page
-        router.push('/payment');
+    const handleGoHome = () => {
+        setShowEmptyCartModal(false); // Close modal
+        router.push('/'); // Navigate to home page
     };
 
     return (
@@ -181,7 +188,6 @@ const CheckoutPage: React.FC = () => {
                             <button
                                 type="submit"
                                 className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-semibold hover:bg-blue-700 transition-colors"
-                                disabled={cart.length === 0} // Disable if cart is empty
                             >
                                 Proceed to Payment
                             </button>
@@ -250,6 +256,14 @@ const CheckoutPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+            {/* Empty Cart Modal */}
+            <Modal
+                isOpen={showEmptyCartModal}
+                onClose={() => setShowEmptyCartModal(false)} // This might not be strictly needed as the button navigates
+                message="Your cart is empty! Please add items to your cart before proceeding to payment."
+                buttonText="Return to Home"
+                onButtonClick={handleGoHome}
+            />
         </div>
     );
 };
