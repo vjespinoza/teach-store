@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-8">
           <Link href="/" className="text-2xl font-bold text-white">
-            Digitic.
+            TechStore
           </Link>
           <div className="relative flex items-center bg-gray-700 rounded-md overflow-hidden">
             <input

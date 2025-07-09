@@ -46,7 +46,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+    <div
+      className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full"
+      data-testid="product-card"
+    >
       <div className="relative w-full h-48 sm:h-56 flex-shrink-0">
         <Image
           src={product.imageUrl}
@@ -54,6 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           layout="fill"
           objectFit="contain"
           className="p-4"
+          data-testid="product-card-image"
         />
         {product.isSale && (
           <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
@@ -62,26 +66,41 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
         )}
       </div>
       <div className="p-4 flex-grow flex flex-col">
-        <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2">
+        <h3
+          className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2"
+          data-testid="product-card-title"
+        >
+          {product.name}
           {product.name}
         </h3>
-        <p className="text-gray-600 text-sm mb-3 flex-grow line-clamp-3">
+        <p
+          className="text-gray-600 text-sm mb-3 flex-grow line-clamp-3"
+          data-testid="product-card-subtitle"
+        >
+          {product.description}
           {product.description}
         </p>
         <div className="flex items-center justify-between mt-auto mb-4">
           <div className="flex items-baseline space-x-2">
             {" "}
             {product.isSale && product.originalPrice > 0 && (
-              <span className="text-gray-500 line-through text-base">
+              <span
+                className="text-gray-500 line-through text-base"
+                data-testid="product-card-original-price"
+              >
                 ${product.originalPrice.toFixed(2)}
               </span>
             )}
-            <span className="text-xl font-bold text-blue-600">
+            <span
+              className="text-xl font-bold text-blue-600"
+              data-testid="product-card-final-price"
+            >
               ${product.price.toFixed(2)}
             </span>
           </div>
           <span
             className={`text-sm font-medium ${product.isInStock ? "text-green-600" : "text-red-600"}`}
+            data-testid="product-card-stock"
           >
             {product.isInStock ? "In Stock" : "Out of Stock"}
           </span>
@@ -93,6 +112,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
               onClick={handleDecrement}
               className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-base"
               aria-label={`Decrease quantity of ${product.name}`}
+              data-testid="product-card-decrease"
             >
               -
             </button>
@@ -103,11 +123,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
               onChange={handleQuantityChange}
               className="w-full text-center border-x border-gray-300 py-1 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               aria-label={`Quantity for ${product.name}`}
+              data-testid="product-card-quantity"
             />
             <button
               onClick={handleIncrement}
               className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-base"
               aria-label={`Increase quantity of ${product.name}`}
+              data-testid="product-card-increase"
             >
               +
             </button>

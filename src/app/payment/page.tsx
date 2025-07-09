@@ -463,8 +463,8 @@ const PaymentPage: React.FC = () => {
                       <br />
                       {customerDetails.addressLine1}
                       <br />
-                      {customerDetails.addressLine2 &&
-                        `${customerDetails.addressLine2}<br/>`}
+                      {customerDetails.addressLine2}
+                      <br />
                       {customerDetails.city}, {customerDetails.state}{" "}
                       {customerDetails.zipCode}
                       <br />

@@ -6,7 +6,7 @@ import { CartProvider } from "@/context/CartContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "My E-commerce App",
+  title: "Tech Store App",
   description:
     "A responsive e-commerce application built with Next.js, TypeScript, and Tailwind CSS",
 };
