@@ -6,9 +6,9 @@ import {
   CustomerDetails as CustomerDetailsType,
   useCart,
 } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface CreditCardDetails {
   cardNumber: string;
