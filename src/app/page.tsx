@@ -3,7 +3,7 @@
 'use client';
 
 import Navbar from '@/components/Navbar';
-import ProductCard, { Product } from '@/components/ProductCard';
+import ProductCard, { Product } from '@/components/ProductCard'; // Ensure Product is imported if used directly
 import { mockProducts } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { useState, useEffect, useCallback } from 'react';
@@ -94,11 +94,11 @@ export default function Home() {
         setProducts(applyFiltersAndSort(filters, sortOption));
     }, [filters, sortOption, applyFiltersAndSort]);
 
-    const handleAddToCart = (product: Product) => {
-        addToCart(product);
+    // Modified handleAddToCart to accept quantity
+    const handleAddToCart = (product: Product, quantity: number) => {
+        addToCart(product, quantity); // Pass the quantity to addToCart
     };
 
-    // Refined handleFilterChange to avoid 'any'
     const handleFilterChange = (
         filterName: keyof ProductFilters | 'inStock' | 'outOfStock',
         value: FilterChangeValue
@@ -117,7 +117,7 @@ export default function Home() {
                     newFilters.inStock = false;
                 }
             } else if (filterName === 'productType' || filterName === 'brand') {
-                const stringValue = value as string; // Assert value as string for these filters
+                const stringValue = value as string;
                 const currentArray = prevFilters[filterName];
                 if (currentArray.includes(stringValue)) {
                     newFilters[filterName] = currentArray.filter(item => item !== stringValue);

@@ -1,83 +1,112 @@
 // src/components/ProductCard.tsx
 
+'use client';
+
+import React, { useState } from 'react';
 import Image from 'next/image';
-import {Star} from 'lucide-react'; // For star ratings
+import { ShoppingCart } from 'lucide-react'; // Import the shopping cart icon
 
 export interface Product {
     id: string;
     name: string;
+    description: string;
     price: number;
-    originalPrice?: number; // Optional for sale items
     imageUrl: string;
-    category: string;
-    brand: string;
-    rating?: number; // Optional star rating
-    reviews?: number; // Number of reviews
     isInStock: boolean;
-    isSale?: boolean;
+    brand: string;
+    category: string;
 }
 
 interface ProductCardProps {
     product: Product;
-    onAddToCart: (product: Product) => void; // <--- ADDED PROP
+    onAddToCart: (product: Product, quantity: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({product, onAddToCart}) => { // <--- Destructure onAddToCart
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+    const [quantity, setQuantity] = useState<number>(1);
+
+    const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Math.max(1, Number(e.target.value));
+        setQuantity(value);
+    };
+
+    const handleIncrement = () => {
+        setQuantity(prev => prev + 1);
+    };
+
+    const handleDecrement = () => {
+        setQuantity(prev => Math.max(1, prev - 1));
+    };
+
+    const handleAddClick = () => {
+        onAddToCart(product, quantity);
+        setQuantity(1); // Reset quantity to 1 after adding to cart
+    };
+
     return (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden relative group">
-            {product.isSale && (
-                <span
-                    className="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full z-10">
-          SALE
-        </span>
-            )}
-            <div className="relative w-full h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
+        <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+            <div className="relative w-full h-48 sm:h-56 flex-shrink-0">
                 <Image
                     src={product.imageUrl}
                     alt={product.name}
                     layout="fill"
                     objectFit="contain"
-                    className="transition-transform duration-300 group-hover:scale-105"
+                    className="p-4"
                 />
             </div>
-            <div className="p-4">
-                <p className="text-xs text-gray-500 mb-1">{product.category}</p>
-                <h3 className="font-semibold text-gray-800 h-12 overflow-hidden text-ellipsis mb-2">
-                    {product.name}
-                </h3>
-                {product.rating !== undefined && (
-                    <div className="flex items-center mb-2">
-                        {[...Array(5)].map((_, i) => (
-                            <Star
-                                key={i}
-                                size={16}
-                                fill={i < product.rating! ? 'currentColor' : 'none'}
-                                stroke={i < product.rating! ? 'currentColor' : 'gray'}
-                                className={i < product.rating! ? 'text-yellow-500' : 'text-gray-300'}
-                            />
-                        ))}
-                        {product.reviews !== undefined && (
-                            <span className="text-xs text-gray-500 ml-2">({product.reviews})</span>
-                        )}
-                    </div>
-                )}
-                <div className="flex items-baseline mb-3">
-                    {product.originalPrice && (
-                        <span className="text-gray-400 line-through mr-2">${product.originalPrice.toFixed(2)}</span>
-                    )}
-                    <span className="text-red-600 font-bold text-lg">${product.price.toFixed(2)}</span>
+            <div className="p-4 flex-grow flex flex-col">
+                <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-2">{product.name}</h3>
+                <p className="text-gray-600 text-sm mb-3 flex-grow line-clamp-3">{product.description}</p>
+                <div className="flex items-center justify-between mt-auto mb-4"> {/* Added mb-4 for spacing */}
+                    <span className="text-xl font-bold text-blue-600">${product.price.toFixed(2)}</span>
+                    <span className={`text-sm font-medium ${product.isInStock ? 'text-green-600' : 'text-red-600'}`}>
+            {product.isInStock ? 'In Stock' : 'Out of Stock'}
+          </span>
                 </div>
-                <button
-                    className={`w-full py-2 rounded-md transition-colors duration-200 ${
-                        product.isInStock
+
+                {/* Combined Quantity Selector and Add to Cart Icon Button */}
+                <div className="flex items-center gap-2 mt-auto"> {/* Use gap-2 for spacing between elements */}
+                    {/* Quantity Selector */}
+                    <div className="flex items-center border border-gray-300 rounded-md overflow-hidden w-28 flex-shrink-0"> {/* Fixed width and flex-shrink */}
+                        <button
+                            onClick={handleDecrement}
+                            className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-base"
+                            aria-label={`Decrease quantity of ${product.name}`}
+                        >
+                            -
+                        </button>
+                        <input
+                            type="number"
+                            min="1"
+                            value={quantity}
+                            onChange={handleQuantityChange}
+                            className="w-full text-center border-x border-gray-300 py-1 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                            aria-label={`Quantity for ${product.name}`}
+                        />
+                        <button
+                            onClick={handleIncrement}
+                            className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-base"
+                            aria-label={`Increase quantity of ${product.name}`}
+                        >
+                            +
+                        </button>
+                    </div>
+
+                    {/* Add to Cart Icon Button */}
+                    <button
+                        onClick={handleAddClick}
+                        disabled={!product.isInStock}
+                        className={`flex-grow flex items-center justify-center p-2 rounded-md transition-colors
+              ${product.isInStock
                             ? 'bg-blue-600 text-white hover:bg-blue-700'
-                            : 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                    }`}
-                    disabled={!product.isInStock}
-                    onClick={() => onAddToCart(product)}
-                >
-                    {product.isInStock ? 'Add to Cart' : 'Out of Stock'}
-                </button>
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                        aria-label="Add to cart" // Simplified aria-label as it's an icon button
+                    >
+                        <ShoppingCart size={20} /> {/* Shopping Cart Icon */}
+                        {/* Removed text for compact design */}
+                    </button>
+                </div>
             </div>
         </div>
     );
