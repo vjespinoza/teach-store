@@ -71,13 +71,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           data-testid="product-card-title"
         >
           {product.name}
-          {product.name}
         </h3>
         <p
           className="text-gray-600 text-sm mb-3 flex-grow line-clamp-3"
           data-testid="product-card-subtitle"
         >
-          {product.description}
           {product.description}
         </p>
         <div className="flex items-center justify-between mt-auto mb-4">
