@@ -62,14 +62,20 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           <button
             className="relative flex items-center hover:text-gray-300"
             onClick={openCartModal}
+            id={"cart-button"}
           >
             <ShoppingCart size={24} />
             {getCartItemCount() > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span
+                id={"cart-item-count"}
+                className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+              >
                 {getCartItemCount()}
               </span>
             )}
-            <span className="ml-2">${getCartTotal().toFixed(2)}</span>{" "}
+            <span id={"cart-total"} className="ml-2">
+              ${getCartTotal().toFixed(2)}
+            </span>{" "}
           </button>
         </div>
       </div>

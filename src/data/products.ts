@@ -54,8 +54,8 @@ export const mockProducts: Product[] = [
     reviews: 8,
     isInStock: true,
     description: "",
-    originalPrice: 0,
-    isSale: false,
+    originalPrice: 1299,
+    isSale: true,
   },
   {
     id: "5",
